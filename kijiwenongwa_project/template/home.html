@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+	<meta charset="UTF-8">
+	<!--    <title>{% block tittle %}{{post.tittle_tag}}{% endblock %}</title>-->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<link href="https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- title -->
+
+	<title>Blog sport</title>
+	      <link href="{% static 'css/stylesheet.css' %}" rel="stylesheet">
+
+</head>
+<body>
+
+	{% block content %}
+<div class="card mb-3">
+    <div class="card-body">
+		<ul>
+			{% for post in object_list %}
+			<a href="{% url 'detail' post.pk %}">
+<!--			<div class="card mb-3">-->
+<!--		<div class="card-body">-->
+			<div class="col-md-2">
+				{% if post.author.profile.profile_pic %}
+				<img src="{{ post.author.profile.profile_pic.url }}" width="80" height="80" , class="rounded-circle" alt="...">
+				{% else %}
+				<img src="{% static 'the_blog/images/default picture.jpg' %}" class="rounded-circle" width="50" height="50">
+				{% endif %}
+</div>
+					<a class="card-title"><a href="{% url 'detail' post.pk %}"> {{ post.tittle }}</a> - <a href="{% url 'category' post.Category %}"> {{post.Category}} </a> -  {{ post.author.first_name }}
+						{{post.author.last_name}}<small>
+
+							{% if user.is_authenticated %}
+							{% if user.id == post.author.id %}
+							<a href="{% url 'update_post' post.pk %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+							<a href="{% url 'delete_post' post.pk %}"><i class="fa fa-trash-o"></i></a>
+							{% endif %}
+							{% endif %}
+						</small><br/>
+						<!--						{{post.snippet }}-->
+					</h5>
+<!--		</div>-->
+<!--			</div>-->
+					<p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer. <a href="{% url 'detail' post.pk %}"> read more </a> </p>
+					<!--					<p class="card-text">{{ post.body|slice:": 100" }} .........</p>-->
+					<!--					{% if post.header_image %}-->
+					<!--                        <img src="{{ post.header_image.url }}"><br><br>-->
+					{% endif %}
+					<!--					<p class="card-text">{{ post.body|safe }} .........</p>-->
+					<p class="card-text"><small class="text-muted">{{post.post_date}}</small></p>
+					<!--					<p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>-->
+
+<hr>
+				</a>
+			{% endfor %}
+
+		</ul>
+
+	</div>
+</div>
+{% endblock %}
+
+</body>
+</html>
